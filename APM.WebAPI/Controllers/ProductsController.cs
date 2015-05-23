@@ -12,10 +12,20 @@ namespace APM.WebAPI.Controllers
     [EnableCorsAttribute("http://localhost:49597", "*", "*")]
     public class ProductsController : ApiController
     {
+        private IEnumerable<Product> AllProducts()
+        {
+            return (new ProductRepository()).FindAll();
+        }
+
         // GET: api/Products
         public IEnumerable<Product> Get()
         {
-            return (new ProductRepository()).FindAll();
+            return AllProducts();
+        }
+
+        public IEnumerable<Product> Get(string search)
+        {
+            return AllProducts().Where(p => p.ProductCode.Contains(search));
         }
 
         // GET: api/Products/5
