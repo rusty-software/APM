@@ -8,10 +8,17 @@
     function ProductListCtrl(productResource) {
         var vm = this;
 
-        vm.search = "GDN";
+        vm.searchCrtieria = "GDN";
+        vm.sortBy = "Price";
+        vm.sortDir = "desc";
 
-        productResource.query({search: vm.search}, function (data) {
-            vm.products = data;
-        });
+        productResource.query(
+            {
+                $filter: "contains(ProductCode, '" + vm.searchCrtieria + "') or contains(ProductName, '" + vm.searchCrtieria + "')",
+                $orderby: vm.sortBy + " " + vm.sortDir
+            },
+            function (data) {
+                vm.products = data;
+            });
     }
 }());
