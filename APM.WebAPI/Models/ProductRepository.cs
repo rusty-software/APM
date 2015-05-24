@@ -16,15 +16,20 @@ namespace APM.WebAPI.Models
             System.IO.File.WriteAllText(filePath, json);
         }
 
-        internal List<Product> FindAll()
+        internal List<Product> GetAll()
         {
             var json = System.IO.File.ReadAllText(filePath);
             return JsonConvert.DeserializeObject<List<Product>>(json);
         }
 
-        Product Save(Product product)
+        internal Product GetById(int id)
         {
-            var products = FindAll();
+            return GetAll().FirstOrDefault(p => p.ProductId == id);
+        }
+
+        internal Product Save(Product product)
+        {
+            var products = GetAll();
             // TODO: consider making the product more than POCO, adding IsNew there
             if (product.ProductId == 0)
             {

@@ -15,7 +15,7 @@ namespace APM.WebAPI.Controllers
     {
         private IEnumerable<Product> AllProducts()
         {
-            return (new ProductRepository()).FindAll();
+            return (new ProductRepository()).GetAll();
         }
 
         // GET: api/Products
@@ -31,19 +31,22 @@ namespace APM.WebAPI.Controllers
         }
 
         // GET: api/Products/5
-        public string Get(int id)
+        public Product Get(int id)
         {
-            return "value";
+            return (new ProductRepository()).GetById(id);
         }
 
         // POST: api/Products
-        public void Post([FromBody]string value)
+        public void Post([FromBody]Product product)
         {
+            (new ProductRepository()).Save(product);
         }
 
         // PUT: api/Products/5
-        public void Put(int id, [FromBody]string value)
+        public void Put(int id, [FromBody]Product product)
         {
+            product.ProductId = id;
+            (new ProductRepository()).Save(product);
         }
 
         // DELETE: api/Products/5
