@@ -20,9 +20,9 @@ namespace APM.WebAPI.Controllers
 
         // GET: api/Products
         [EnableQuery()]
-        public IQueryable<Product> Get()
+        public IHttpActionResult Get()
         {
-            return AllProducts().AsQueryable();
+            return Ok(AllProducts().AsQueryable());
         }
 
         public IEnumerable<Product> Get(string search)
@@ -31,22 +31,46 @@ namespace APM.WebAPI.Controllers
         }
 
         // GET: api/Products/5
-        public Product Get(int id)
+        public IHttpActionResult Get(int id)
         {
-            return (new ProductRepository()).GetById(id);
+            var product = (new ProductRepository()).GetById(id);
+            if (product == null)
+            {
+                return NotFound();
+            }
+            return Ok(product);
         }
 
         // POST: api/Products
-        public void Post([FromBody]Product product)
+        public IHttpActionResult Post([FromBody]Product product)
         {
-            (new ProductRepository()).Save(product);
+            if (product == null)
+            {
+                return BadRequest("Product cannot be null!");
+            }
+            var newProduct = (new ProductRepository()).Save(product);
+            if (product == null)
+            {
+                return Conflict();
+            }
+            return Created<Product>(Request.RequestUri + newProduct.ProductId.ToString(), newProduct);
+            
         }
 
         // PUT: api/Products/5
-        public void Put(int id, [FromBody]Product product)
+        public IHttpActionResult Put(int id, [FromBody]Product product)
         {
+            if (product == null)
+            {
+                return BadRequest("Product cannot be null!");
+            }
             product.ProductId = id;
-            (new ProductRepository()).Save(product);
+            var updatedProduct = (new ProductRepository()).Save(product);
+            if (product == null)
+            {
+                return NotFound();
+            }
+            return Ok();
         }
 
         // DELETE: api/Products/5
