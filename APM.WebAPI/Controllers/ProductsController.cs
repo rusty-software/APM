@@ -63,11 +63,18 @@ namespace APM.WebAPI.Controllers
                 {
                     return BadRequest("Product cannot be null!");
                 }
+
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState);
+                }
+
                 var newProduct = (new ProductRepository()).Save(product);
                 if (product == null)
                 {
                     return Conflict();
                 }
+
                 return Created<Product>(Request.RequestUri + newProduct.ProductId.ToString(), newProduct);
             }
             catch (Exception ex)
@@ -86,12 +93,19 @@ namespace APM.WebAPI.Controllers
                 {
                     return BadRequest("Product cannot be null!");
                 }
+
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState);
+                }
+
                 product.ProductId = id;
                 var updatedProduct = (new ProductRepository()).Save(product);
                 if (product == null)
                 {
                     return NotFound();
                 }
+
                 return Ok();
             }
             catch (Exception ex)
