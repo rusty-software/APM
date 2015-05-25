@@ -18,6 +18,9 @@
             }, 
             function (response) {
                 vm.message = response.statusText + "\r\n";
+                if (response.data.exceptionMessage) {
+                    vm.message += response.data.exceptionMessage;
+                }
             });
 
         if (vm.product && vm.product.productId) {
@@ -36,6 +39,9 @@
                     },
                     function (response) {
                         vm.message = response.statusText + "\r\n";
+                        if (response.data.exceptionMessage) {
+                            vm.message += response.data.exceptionMessage;
+                        }
                     })
             } else {
                 vm.product.$save(
@@ -45,6 +51,9 @@
                     }, 
                     function (response) {
                         vm.message = response.statusText + "\r\n";
+                        if (response.data.exceptionMessage) {
+                            vm.message += response.data.exceptionMessage;
+                        }
                     })
             }
         };
