@@ -35,6 +35,7 @@ namespace APM.WebAPI.Controllers
         }
 
         // GET: api/Products/5
+        [Authorize()]
         [ResponseType(typeof(Product))]
         public IHttpActionResult Get(int id)
         {
