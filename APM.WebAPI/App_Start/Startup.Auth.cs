@@ -10,7 +10,6 @@ using Microsoft.Owin.Security.OAuth;
 using Owin;
 using APM.WebAPI.Providers;
 using APM.WebAPI.Models;
-
 namespace APM.WebAPI
 {
     public partial class Startup
@@ -30,6 +29,9 @@ namespace APM.WebAPI
             // and to use a cookie to temporarily store information about a user logging in with a third party login provider
             app.UseCookieAuthentication(new CookieAuthenticationOptions());
             app.UseExternalSignInCookie(DefaultAuthenticationTypes.ExternalCookie);
+
+            // TODO: investigate how to limit CORS
+            //app.UseCors(CorsOptions.AllowAll);
 
             // Configure the application for OAuth based flow
             PublicClientId = "self";
